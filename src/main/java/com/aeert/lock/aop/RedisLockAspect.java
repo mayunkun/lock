@@ -1,6 +1,6 @@
 package com.aeert.lock.aop;
 
-import com.aeert.lock.annotation.RedisLock;
+import com.aeert.lock.annotation.Lock;
 import com.aeert.lock.exception.RrException;
 import io.vavr.Function3;
 import io.vavr.control.Try;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.locks.Lock;
 
 /**
  * @Author l'amour solitaire
@@ -33,7 +32,7 @@ public class RedisLockAspect {
     private final RedisConnectionFactory redisConnectionFactory;
 
     @Around(value = "@annotation(redisLock)")
-    public Object redisLock(ProceedingJoinPoint joinPoint, RedisLock redisLock) {
+    public Object redisLock(ProceedingJoinPoint joinPoint, Lock redisLock) {
         RedisLockRegistry redisLockRegistry = new RedisLockRegistry(redisConnectionFactory, redisLock.registryKey(), redisLock.expires());
         return Try.of(() -> {
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -42,7 +41,7 @@ public class RedisLockAspect {
             Object[] arguments = joinPoint.getArgs();
 
             String key = keyFormatter.apply(redisLock.key(), method, arguments);
-            Lock lock = redisLockRegistry.obtain(key);
+            java.util.concurrent.locks.Lock lock = redisLockRegistry.obtain(key);
             return Try.of(() -> {
                 boolean ifLock = lock.tryLock();
                 log.info("线程[{}]是否获取到了锁：{}", Thread.currentThread().getName(), ifLock);

@@ -1,7 +1,6 @@
 package com.aeert.lock.annotation;
 
 import java.lang.annotation.*;
-import java.nio.file.OpenOption;
 
 /**
  * @Author l'amour solitaire
@@ -11,7 +10,7 @@ import java.nio.file.OpenOption;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface RedisLock {
+public @interface Lock {
 
     /**
      * redis锁的key值
