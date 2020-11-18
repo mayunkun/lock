@@ -20,8 +20,13 @@ public @interface RedisLock {
     String key() default "";
 
     /**
-     * redis锁的有效期(单位:秒)
+     * redis锁的registry key值
+     */
+    String registryKey() default "redis-lock";
+
+    /**
+     * redis锁的有效期(单位:毫秒)
      **/
-    long expires() default 10L;
+    long expires() default 60000L;
 
 }

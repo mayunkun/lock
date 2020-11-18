@@ -14,12 +14,12 @@ import org.springframework.integration.redis.util.RedisLockRegistry;
 @Configuration
 public class RedisLockConfiguration {
 
-    private static final String REGISTRY_KEY = "redis-lock";
-
-    @Bean
-    public RedisLockRegistry redisLockRegistry(RedisConnectionFactory redisConnectionFactory) {
-        return new RedisLockRegistry(redisConnectionFactory, REGISTRY_KEY);
-    }
+//    private static final String REGISTRY_KEY = "redis-lock";
+//
+//    @Bean
+//    public RedisLockRegistry redisLockRegistry(RedisConnectionFactory redisConnectionFactory) {
+//        return new RedisLockRegistry(redisConnectionFactory, REGISTRY_KEY);
+//    }
 
     @Bean
     public RedisTemplate<Object, Object> getRedisTemplate(RedisConnectionFactory jedisConnectionFactory) {

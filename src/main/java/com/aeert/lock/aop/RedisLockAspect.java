@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.integration.redis.util.RedisLockRegistry;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -29,10 +30,11 @@ import java.util.concurrent.locks.Lock;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class RedisLockAspect {
 
-    private final RedisLockRegistry redisLockRegistry;
+    private final RedisConnectionFactory redisConnectionFactory;
 
     @Around(value = "@annotation(redisLock)")
     public Object redisLock(ProceedingJoinPoint joinPoint, RedisLock redisLock) {
+        RedisLockRegistry redisLockRegistry = new RedisLockRegistry(redisConnectionFactory, redisLock.registryKey(), redisLock.expires());
         return Try.of(() -> {
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
             signature.getClass();
