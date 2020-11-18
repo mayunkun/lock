@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class LockServiceImpl implements LockService {
 
     @Override
-    @Lock(key = "targetClass + methodName + ':' + #p0 + #p1 + #p2", expires = 20000L, registryKey = "redis-key")
+    @Lock(key = "targetClass + methodName + ':' + #p0 + #p1 + #p2", expires = 20000L, registryKey = "redis-key",message = "当前操作正在执行！")
     public String getInfo(String param1, String param2, String param3) {
         try {
             Thread.sleep(2000);

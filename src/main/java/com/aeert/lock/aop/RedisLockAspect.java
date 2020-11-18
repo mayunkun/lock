@@ -48,7 +48,7 @@ public class RedisLockAspect {
                 if (ifLock) {
                     return joinPoint.proceed();
                 } else {
-                    throw new RrException("操作正在进行中～");
+                    throw new RrException(redisLock.message());
                 }
             }).onFailure((e) -> {
                 log.error("执行核心扫描时出错:{}", e.getMessage());

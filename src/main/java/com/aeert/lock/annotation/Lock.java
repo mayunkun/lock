@@ -24,6 +24,11 @@ public @interface Lock {
     String registryKey() default "redis-lock";
 
     /**
+     * redis锁文案
+     */
+    String message() default "操作正在进行中～";
+
+    /**
      * redis锁的有效期(单位:毫秒)
      **/
     long expires() default 60000L;
